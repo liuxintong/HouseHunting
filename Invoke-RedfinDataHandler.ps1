@@ -163,29 +163,29 @@ function Invoke-SqlGenHelper
         $firstLine = Get-Content -Path $file.FullName -TotalCount 1
         Write-Host "First line: $firstLine"
         $columns = $firstLine -split '\t'
-        $types = @()
+        $types = @{}
 
-        for ($index = 0; $index -lt $columns.Length; $index += 1)
+        foreach ($col in $columns)
         {
-            if ($columns[$index] -match 'period_begin|period_end')
+            if ($col -match 'period_begin|period_end')
             {
-                $types += 'DATE'
+                $types[$col] = 'DATE'
             }
-            elseif ($columns[$index] -match 'last_updated')
+            elseif ($col -match 'last_updated')
             {
-                $types += 'DATETIME'
+                $types[$col] = 'DATETIME'
             }
-            elseif ($columns[$index] -match 'period_duration|region_type_id|table_id|property_type_id|parent_metro_region_metro_code')
+            elseif ($col -match 'period_duration|region_type_id|table_id|property_type_id|parent_metro_region_metro_code')
             {
-                $types += 'INT'
+                $types[$col] = 'INT'
             }
-            elseif ($columns[$index] -match 'region_type|is_seasonally_adjusted|region|city|state|state_code|property_type|parent_metro_region|duration')
+            elseif ($col -match 'region_type|is_seasonally_adjusted|region|city|state|state_code|property_type|parent_metro_region|duration')
             {
-                $types += 'VARCHAR(32)'
+                $types[$col] = 'VARCHAR(32)'
             }
             else
             {
-                $types += 'DECIMAL(32, 24)'
+                $types[$col] = 'DECIMAL(32, 24)'
             }
         }
 
@@ -196,7 +196,7 @@ USE ``housing``;
 
 CREATE OR REPLACE TABLE ``housing``.``$tableName`` (
 $(
-    (0..$($columns.Length - 1) | ForEach-Object { "    $($columns[$_]) $($types[$_])" }) -join ",`n"
+    ($columns | ForEach-Object { "    $_ $($types[$_])" }) -join ",`n"
 )
 );
 
@@ -219,6 +219,10 @@ SET
 $(
     ($columns | ForEach-Object { "``$_`` = NULLIF(@$_, '')" }) -join ",`n"
 );
+
+$(
+    ($columns | Where-Object { $($types[$_]) -notmatch '^DECIMAL' } | ForEach-Object { "CREATE OR REPLACE INDEX ``$_`` ON ``housing``.``$tableName`` (``$_``);" }) -join "`n"
+)
 "@ | Set-Content -Path $genFilePath
     }
 

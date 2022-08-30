@@ -192,3 +192,20 @@ SET
 `parent_metro_region` = NULLIF(@parent_metro_region, ''),
 `parent_metro_region_metro_code` = NULLIF(@parent_metro_region_metro_code, ''),
 `last_updated` = NULLIF(@last_updated, '');
+
+CREATE OR REPLACE INDEX `period_begin` ON `housing`.`redfin_metro_market_tracker` (`period_begin`);
+CREATE OR REPLACE INDEX `period_end` ON `housing`.`redfin_metro_market_tracker` (`period_end`);
+CREATE OR REPLACE INDEX `period_duration` ON `housing`.`redfin_metro_market_tracker` (`period_duration`);
+CREATE OR REPLACE INDEX `region_type` ON `housing`.`redfin_metro_market_tracker` (`region_type`);
+CREATE OR REPLACE INDEX `region_type_id` ON `housing`.`redfin_metro_market_tracker` (`region_type_id`);
+CREATE OR REPLACE INDEX `table_id` ON `housing`.`redfin_metro_market_tracker` (`table_id`);
+CREATE OR REPLACE INDEX `is_seasonally_adjusted` ON `housing`.`redfin_metro_market_tracker` (`is_seasonally_adjusted`);
+CREATE OR REPLACE INDEX `region` ON `housing`.`redfin_metro_market_tracker` (`region`);
+CREATE OR REPLACE INDEX `city` ON `housing`.`redfin_metro_market_tracker` (`city`);
+CREATE OR REPLACE INDEX `state` ON `housing`.`redfin_metro_market_tracker` (`state`);
+CREATE OR REPLACE INDEX `state_code` ON `housing`.`redfin_metro_market_tracker` (`state_code`);
+CREATE OR REPLACE INDEX `property_type` ON `housing`.`redfin_metro_market_tracker` (`property_type`);
+CREATE OR REPLACE INDEX `property_type_id` ON `housing`.`redfin_metro_market_tracker` (`property_type_id`);
+CREATE OR REPLACE INDEX `parent_metro_region` ON `housing`.`redfin_metro_market_tracker` (`parent_metro_region`);
+CREATE OR REPLACE INDEX `parent_metro_region_metro_code` ON `housing`.`redfin_metro_market_tracker` (`parent_metro_region_metro_code`);
+CREATE OR REPLACE INDEX `last_updated` ON `housing`.`redfin_metro_market_tracker` (`last_updated`);
