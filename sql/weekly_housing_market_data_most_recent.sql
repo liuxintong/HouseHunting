@@ -324,3 +324,12 @@ SET
 `adjusted_average_homes_sold_yoy` = NULLIF(@adjusted_average_homes_sold_yoy, ''),
 `adjusted_average_new_listings_yoy` = NULLIF(@adjusted_average_new_listings_yoy, ''),
 `adjusted_pending_sales_yoy` = NULLIF(@adjusted_pending_sales_yoy, '');
+
+CREATE OR REPLACE INDEX `region_id` ON `housing`.`weekly_housing_market_data_most_recent` (`region_id`);
+CREATE OR REPLACE INDEX `region_type_id` ON `housing`.`weekly_housing_market_data_most_recent` (`region_type_id`);
+CREATE OR REPLACE INDEX `region_name` ON `housing`.`weekly_housing_market_data_most_recent` (`region_name`);
+CREATE OR REPLACE INDEX `region_type` ON `housing`.`weekly_housing_market_data_most_recent` (`region_type`);
+CREATE OR REPLACE INDEX `period_begin` ON `housing`.`weekly_housing_market_data_most_recent` (`period_begin`);
+CREATE OR REPLACE INDEX `period_end` ON `housing`.`weekly_housing_market_data_most_recent` (`period_end`);
+CREATE OR REPLACE INDEX `duration` ON `housing`.`weekly_housing_market_data_most_recent` (`duration`);
+CREATE OR REPLACE INDEX `last_updated` ON `housing`.`weekly_housing_market_data_most_recent` (`last_updated`);
