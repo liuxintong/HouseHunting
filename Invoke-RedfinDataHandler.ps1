@@ -8,8 +8,21 @@ param(
 
 $Script:ErrorActionPreference = 'Stop'
 
+# https://www.7-zip.org/
 $app7zPath = 'C:\Program Files\7-Zip\7z.exe'
+
+# https://mariadb.org/
 $appMySqlPath = 'C:\Program Files\MariaDB 10.6\bin\mysql.exe'
+
+if ($IsMacOS)
+{
+    # brew install 7-zip
+    $app7zPath = '7zz'
+
+    # brew install mariadb
+    # brew services run mariadb
+    $appMySqlPath = 'mysql'
+}
 
 $timestamp = (Get-Date).ToString('yyyyMMdd')
 $dataFolder = Join-Path $PSScriptRoot 'data'
